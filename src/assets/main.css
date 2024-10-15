@@ -1,0 +1,92 @@
+@import './base.css';
+
+#app {
+  max-width: 1500px;
+  width: 1480px;
+  height: 1200px;
+  margin-top: 3%;
+  padding: 5rem;
+  font-weight: normal;
+  background-color: var(--color-background);
+  border-radius: 4rem;
+  display: flex;
+  /*justify-content: center;*/
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box; /*//Отступы и границы будут включены в заданные размеры, а не добавлены к ним.*/
+}
+
+body {
+  background-color: var(--color-background); /* Установите фон для body */
+}
+
+
+@media (hover: hover) {
+  /* медиа-запрос и применяется к элементам <a> (ссылкам) при наведении курсора, но только на устройствах, которые поддерживают “hover”*/
+  a:hover {
+    background-color: hsla(261, 100%, 37%, 0.2);
+    /* изменяет фоновый цвет ссылки при наведении. Цвет описывается в формате HSLA (цветовой формат, основанный на оттенке, насыщенности, яркости и прозрачности):
+   •	160 — оттенок зелёного цвета.
+   •	100% — насыщенность цвета (максимально насыщенный).
+   •	37% — яркость цвета (не слишком светлый, не слишком тёмный).
+   •	0.2 — прозрачность цвета (цвет будет полупрозрачным).*/
+  }
+}
+
+@media (min-width: 960px) {
+  /*//1024 пикселя и больше.*/
+  body {
+    display: flex;
+    place-items: center;
+    background-color: var(--color-background);
+  }
+
+  #app {
+    /* padding: 0 2rem;*/
+    /* max-width: 1500px;*/
+    /* width: 1480px;*/
+    max-width: 1480px;
+    min-width: 500px;
+    max-height: 1300px;
+    min-height: 1300px;
+    /*height: auto;*/
+  }
+}
+
+@media (min-width: 100px) and (max-width: 500px) {
+  /*//1024 пикселя и больше.*/
+  body {
+    display: flex;
+    place-items: center;
+    background-color: var(--color-background);
+    --font-size-small: 0.2em;
+    --font-size-smaMed: 0.5em;
+    --font-size-medium: 0.7em;
+    --font-size-large: 1em;
+    --font-size-medLar: 0.9em;
+    --font-size-largest: 1.5em;
+  }
+
+  #app {
+    /* padding: 0 2rem;*/
+    /* max-width: 1500px;*/
+    /* width: 1480px;*/
+    min-width: 100px;
+    max-height: 1200px;
+    min-height: 1200px;
+    /*height: auto;*/
+  }
+}
+
+@media (max-width: 835px) and (min-width: 500px)  {
+  body{
+    --font-size-small: 0.2em;
+    --font-size-smaMed: 0.5em;
+    --font-size-medium: 0.7em;
+    --font-size-large: 1em;
+    --font-size-medLar: 0.9em;
+    --font-size-largest: 1.5em;
+    --font-size-icons: 1.5em;
+    --font-size-iconsSvg: 2em;
+  }
+}

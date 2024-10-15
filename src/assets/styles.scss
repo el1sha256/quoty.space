@@ -1,0 +1,10 @@
+@mixin flex-center-column {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+@mixin flex-center-row {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}

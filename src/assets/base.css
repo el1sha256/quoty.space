@@ -1,0 +1,284 @@
+/* color palette from <https://github.com/vuejs/theme> */
+:root {
+    --vt-c-white-soft: #f8f8f8;
+    --vt-c-white-mute: #f2f2f2;
+
+    --vt-c-black-soft: #222222;
+    --vt-c-black-mute: #282828;
+
+    --vt-c-indigo: #2c3e50;
+    --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
+    --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
+    --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
+    --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+
+    --vt-c-text-light-1: var(--vt-c-indigo);
+    --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
+    --vt-c-text-dark-1: var(--vt-c-white);
+    --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+
+    --vt-c-white: #ffffff;
+    --vt-c-black: #181818;
+    --vt-c-grey-light: #D9D9D9;
+    --vt-c-accent-color: #f6f628;
+    --vt-c-accent-mute-color: #efef90;
+    --vt-c-red-color: #ec3f3f;
+
+    --font-size-small: 0.5em;
+    --font-size-smaMed: 0.7em;
+    --font-size-medium: 1em;
+    --font-size-medLar: 1.28em;
+    --font-size-large: 2em;
+    --font-size-largest: 3em;
+
+    --size-icons-smallest: 2em;
+    --size-icons-small: 3em;
+    --size-icons-medium: 4em;
+    --size-icons-large: 5em;
+}
+
+/* semantic color variables for this project */
+:root {
+    --color-background: var(--vt-c-white);
+    --color-background-soft: var(--vt-c-white-soft);
+    --color-background-mute: var(--vt-c-white-mute);
+
+    --color-border: var(--vt-c-divider-light-2);
+    --color-border-hover: var(--vt-c-divider-light-1);
+
+    --color-heading: var(--vt-c-text-light-1);
+    --color-text: var(--vt-c-text-light-1);
+
+    --section-gap: 160px;
+}
+
+/*@media (prefers-color-scheme: light) {
+  :root {
+    !*--color-background: var(--vt-c-black);*!
+    --color-background: #FFF;
+    --color-background-soft: var(--vt-c-black-soft);
+    --color-background-mute: var(--vt-c-black-mute);
+
+    --color-border: var(--vt-c-divider-dark-2);
+    --color-border-hover: var(--vt-c-divider-dark-1);
+
+    --color-heading: var(--vt-c-text-dark-1);
+    --color-text: var(--vt-c-text-dark-2);
+  }
+}*/
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* --color-background: var(--vt-c-black);*/
+        --color-background: #FFF; /*//ПOТОМ ПЕРЕКЛЮЧИТЬ */
+        --color-background-soft: var(--vt-c-black-soft);
+        --color-background-mute: var(--vt-c-black-mute);
+
+        --color-border: var(--vt-c-divider-dark-2);
+        --color-border-hover: var(--vt-c-divider-dark-1);
+
+        --color-heading: var(--vt-c-text-dark-1);
+        --color-text: var(--vt-c-text-dark-2);
+    }
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    font-weight: normal;
+}
+
+body {
+    min-height: 100vh;
+    color: var(--color-text);
+    background: var(--color-background);
+    transition: color 0.5s,
+    background-color 0.5s;
+    line-height: 1.6;
+    font-family: Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
+    font-size: 15px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/*.active {
+  color: var(--vt-c-text-light-1);
+  border-bottom: solid 3px #f0ff87;
+}*/
+
+.container-main {
+    /* background-color: var(--vt-c-text-dark-2);*/
+    height: auto;
+    /*height: 50%;*/
+    width: 1480px;
+    margin: 0;
+    /*border-radius: 5%;*/
+    border-radius: 20px;
+    padding: 5%;
+    /* margin: 5%;*/
+    /*justify-content: space-evenly;*/
+    align-items: flex-start;
+    /* display: flex;
+     flex-direction: row;*/
+    color: black;
+    /*font-size: var(--font-size-large);*/
+}
+
+.picsStyleSmallest {
+    height: var(--size-icons-smallest);
+    width: var(--size-icons-smallest);
+    color: var(--vt-c-black);
+}
+
+.picsStyleSmall {
+    height: var(--size-icons-small);
+    width: var(--size-icons-small);
+    color: var(--vt-c-black);
+}
+
+.picsStyleMedium {
+    height: var(--size-icons-medium);
+    width: var(--size-icons-medium);
+    color: var(--vt-c-black);
+}
+
+.picsStyleLarge {
+    height: var(--size-icons-large);
+    width: var(--size-icons-large);
+    color: var(--vt-c-black);
+}
+
+.logo {
+    height: 9em;
+    width: 9em;
+}
+
+.avatar {
+    height: var(--size-icons-medium);
+    width: var(--size-icons-medium);
+    color: var(--vt-c-black);
+    border-radius: 50%;
+    background-color: var(--vt-c-indigo);
+}
+
+.actions {
+    display: flex;
+    width: 30%;
+    justify-content: space-evenly;
+    padding-top: 2em;
+    align-items: center;
+}
+
+.baseText {
+    color: var(--vt-c-black);
+    font-size: var(--font-size-medium);
+    list-style-type: none; /* Убирает маркеры у списка */
+}
+
+.baseTextBold {
+    color: var(--vt-c-black);
+    font-size: var(--font-size-medLar);
+    font-weight: bold;
+    list-style-type: none; /* Убирает маркеры у списка */
+}
+
+.login-wrapper {
+    display: flex;
+    /* background-color:green;*/
+    width: 40em;
+    height: 20em;
+    padding: 2em;
+    flex-direction: column;
+    margin-top: 2em;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    border: solid 2px var(--vt-c-grey-light);
+    border-radius: 15px;
+}
+
+
+.bigText {
+    color: var(--vt-c-black);
+    font-size: var(--font-size-largest);
+    border-bottom: solid 2px var(--vt-c-grey-light);
+    margin-bottom: 5%;
+}
+
+.btn {
+    margin-top: 4px;
+    width: 120px;
+    height: 50px;
+    border-radius: 15px;
+    /*border: none;*/
+    outline: none;
+    /* color: var(--vt-c-indigo);*/
+    background-color: var(--color-background);
+    border: solid 2px var(--vt-c-grey-light);
+    font-size: var(--font-size-medium);
+    font-weight: bold;
+}
+
+.btn.primary:hover {
+    background-color: var(--vt-c-accent-color);
+}
+
+.btn.danger:hover {
+    background-color: var(--vt-c-red-color);
+}
+
+.linksClear {
+    text-decoration: none; /* Убирает подчеркивание, как у ссылки */
+    list-style-type: none; /* Убирает маркеры у списка */
+    transition: background-color 0.3s; /* Плавный переход для фона при наведении */
+}
+
+.linksClear:hover {
+    background-color: var(--color-background); /* Цвет фона при наведении */
+}
+
+.inputs {
+    width: 60%;
+    height: 2em;
+    border-radius: 5px;
+    margin-left: 1em;
+}
+.inputs:focus {
+    outline: none;
+    border: 2px solid var(--vt-c-accent-color); /* изменяет цвет бордюра */
+}
+input:valid {
+    background-color: var(--vt-c-accent-mute-color); /* цвет текста, когда что-то введено */
+}
+
+.linksText {
+    color: var(--vt-c-indigo);
+    /*font-size: var(--font-size-large);*/
+    text-decoration: none; /* Убирает подчеркивание, как у ссылки */
+    list-style-type: none; /* Убирает маркеры у списка */
+    display: block; /* Делает элемент блочным для лучшего кликабельного пространства */
+    border-radius: 5px; /* Скругление углов, если есть фон */
+    transition: background-color 0.3s; /* Плавный переход для фона при наведении */
+}
+
+.linksText:hover {
+    background-color: #dcff45; /* Цвет фона при наведении */
+}
+
+.smallText {
+    color: var(--vt-c-indigo);
+    font-size: var(--font-size-medium);
+}
