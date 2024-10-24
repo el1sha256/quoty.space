@@ -11,10 +11,23 @@ export default {
   components: {TheWriter, UserText, TheCategories, UserSmall},
   provide() {
     return {
-      categories: categoryData.categories,
-      users: userData.users,
+      categories: categoryData.categories, //idk wth
+      users: userData.users, //idk wth
+      validateEmail:this.validateEmail
     }
   },
+  methods:{
+    validateEmail(){
+      const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+      if (!gmailRegex.test(this.email)) {
+        this.errorMessage = 'Email должен быть на домене @gmail.com';
+        return false;
+      }else{
+        return true;
+      }
+    }
+  }
+
 }
 </script>
 

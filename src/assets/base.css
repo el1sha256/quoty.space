@@ -195,6 +195,9 @@ body {
     font-weight: bold;
     list-style-type: none; /* Убирает маркеры у списка */
 }
+.errorClass{
+    color: var(--vt-c-red-color);
+}
 
 .login-wrapper {
     display: flex;

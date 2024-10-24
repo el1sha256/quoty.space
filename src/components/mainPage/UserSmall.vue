@@ -4,12 +4,11 @@ import {mapState, mapActions} from 'vuex'
 
 export default {
   name: "UserSmall",
-  /*inject: ['users'],*/
   computed: {
-    ...mapState(['user']),
+    ...mapState(['user', 'userName', 'description', 'avatar']),
   },
   methods: {
-    ...mapActions([ 'restoreUser']),
+    ...mapActions(['restoreUser']),
   },
 
 }
@@ -20,19 +19,17 @@ export default {
 
     <div class="User-small-main">
       <!--    //тyт будет компонент с юзернеймом и аватаркой-->
-      <div class="avatar"></div>
-
+      <!--      <div class="avatar"></div>-->
+      <div>
+        {{ user ? user.avatar : 'Loading...' }}
+      </div>
       <div class="User-small-main-text">
         <router-link to="/editing" class="linksText">
-          <h2>{{ user ? user.email : 'Loading...' }}</h2>
-          <p>{{ user ? user.bio : '' }}</p>
+          <h2>{{ user ? user.userName : 'Loading...' }}</h2>
+          <p>{{ user ? user.description : '' }}</p>
           <p>{{ user ? user.token : '' }}</p>
         </router-link>
       </div>
-
-<!--      <button class="btn danger" @click.prevent="this.logout(this.$router)">
-        Выйти
-      </button>-->
 
     </div>
 
