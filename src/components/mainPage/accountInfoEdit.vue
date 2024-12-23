@@ -15,7 +15,7 @@ export default {
     updateUserData() {
       const isEmailValid = this.validateEmailMixin(this.email);
       const isPasswordValid = this.validatePasswordMixin(this.password);
-const isDescriptionValid = this.validateDescriptionMixin(this.description);
+      const isDescriptionValid = this.validateDescriptionMixin(this.description);
 
       if (this.isValid && isEmailValid && isPasswordValid) {
         this.$store.dispatch('UpdateUser', { email: this.email, password: this.password, userName: this.userName, description: this.description })
@@ -23,18 +23,16 @@ const isDescriptionValid = this.validateDescriptionMixin(this.description);
               alert('Данные пользователя успешно обновлены!');
             })
             .catch((error) => {
-             /* this.errorMessage = error.message || 'Ошибка при обновлении данных пользователя';*/
               const errorMessage = error.message || 'Ошибка при создании';
               this.$store.dispatch('handleError', { message: errorMessage }); // Отправляем ошибку в Vuex
             });
       } else {
-       /* this.errorMessage = 'Пожалуйста, проверьте введенные данные'; // Убедитесь, что валидация правильная*/
       }
     },
   },
   data() {
     return {
-      email: '', //new ones
+      email: '',
       password: '',
       errorMessage: '',
       userName:'',

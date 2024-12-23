@@ -1,11 +1,18 @@
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapState} from "vuex";
+import { useToast } from 'vue-toastification';
 import {commonMethods} from '../mixins/commonMethods';
+import Main_error from "@/components/errors/main_error.vue";
+import Small_error from "@/components/errors/small_error.vue";
+import Avatar_display from "@/components/childComps/avatar_display.vue";
 
 export default {
   name: "createUser",
+  components: {Avatar_display, Small_error, Main_error},
   mixins: [commonMethods], // Подключаем миксин
-  computed: {},
+  computed: {
+    ...mapState(['error']),
+  },
   data() {
     return {
       email: '',
@@ -19,55 +26,21 @@ export default {
 
   },
   methods: {
-    ...mapActions(['RegisterUser','RegisterAvatar']),
+    ...mapActions(['RegisterUser', 'RegisterAvatar']),
 
     onFileChange(event) {
+      if (this.avatarUrl) {
+        URL.revokeObjectURL(this.avatarUrl); // Освобождаем старый URL
+      }
       const file = event.target.files[0];
-      this.avatar = file; // Сохраняем объект File
-      this.avatarUrl = URL.createObjectURL(file); // Для отображения выбранного файла
-    },
-
-  /*  async register() {
-      try {
-
-        const isEmailValid = this.validateEmailMixin(this.email);
-        const isPasswordValid = this.validatePasswordMixin(this.password);
-        const isDescriptionValid = this.validateDescriptionMixin(this.description);
-
-        if (isEmailValid && isPasswordValid && isDescriptionValid) {
-
-          await this.RegisterUser({
-            email: this.email,
-            password: this.password,
-            userName: this.userName,
-            description: this.description,
-          });
-          alert("User registered successfully");
-          this.email = '';
-          this.password = '';
-          this.userName = '';
-          this.description = '';
-          this.avatar = null;
-          this.$router.push('/login');
-        }
-      } catch (error) {
-        const errorMessage = error.message || 'Ошибка при создании';
-        this.$store.dispatch('handleError', {message: errorMessage}); // Отправляем ошибку в Vuex
+      if (file) {
+        this.avatar = file; // Присваиваем объект File в состояние компонента
+        this.avatarUrl = URL.createObjectURL(file); // Генерируем URL для предварительного просмотра
+        console.log('файл найден onFileChange(event)', this.avatar, 'URL:', this.avatarUrl)
+      } else {
+        console.log('ERROR onFileChange(event)')
       }
     },
-    async handleAvatarUpload(){
-      const avatarData = { avatar: this.avatar }; // Создаем объект с аватаром
-      try{
-       /!* await this.RegisterAvatar(avatarData); // Передаем объект в Vuex экшен*!/
-        await this.$store.dispatch('RegisterAvatar', avatarData); // Передаем объект в Vuex экшен
-        console.log('Аватар загружен успешно');
-      }catch(error){
-        const errorMessage = error.message || 'Ошибка при создании';
-        this.$store.dispatch('handleError', {message: errorMessage}); // Отправляем ошибку в Vuex
-      }
-    },*/
-
-
 
     async register() {
       try {
@@ -81,20 +54,23 @@ export default {
             password: this.password,
             userName: this.userName,
             description: this.description,
-            avatar: this.avatar,
           };
           // Регистрируем пользователя
           const user = await this.RegisterUser(userData);
           // Если аватар загружен, загружаем его
-          if (this.avatar) {
-            await this.RegisterAvatar({ avatar: this.avatar, userId: user.id }); // Передаем аватар и ID пользователя
+          if (user) {
+            if (this.avatar) {
+              await this.RegisterAvatar({avatar: this.avatar, userId: user.id}); // Передаем аватар и ID пользователя
+              console.log('дождались async register()')
+            }
+            this.$notyf.success({
+              message: 'Регистрация прошла успешно!',
+            });
+            this.$router.push('/login');
           }
-          alert("Пользователь успешно зарегистрирован");
-          this.$router.push('/login');
         }
       } catch (error) {
-        const errorMessage = error.message || 'Ошибка при регистрации';
-        this.$store.dispatch('handleError', { message: errorMessage }); // Отправляем ошибку в Vuex
+        console.log('Ошибка при регистрации:', error.message);
       }
     },
   }
@@ -124,38 +100,17 @@ export default {
       </div>
 
       <div class="row">
-<!--      <v-file-input
-          style="background-color: #2c3e50"
-          v-model="avatar"
-          label="Выберите аватар"
-          accept="image/*"
-          prepend-icon="mdi-camera"
-          @change="onFileChange"
-      >-->
-        <div class="row">
+
+        <label class="inputs large">
+          Выбрать файл
           <input
               type="file"
               @change="onFileChange"
               accept="image/*"
-              style="color: #2c3e50"
           />
-          <img v-if="avatarUrl" :src="avatarUrl" alt="Аватар пользователя" style="max-width: 200px;">
-        </div>
+        </label>
+        <img class="avatar-small" v-if="avatarUrl" :src="avatarUrl" alt="Аватар пользователя">
       </div>
-
-
-<!--      <form @submit.prevent="handleAvatarUpload">
-        <input
-            type="file"
-            @change="onFileChange"
-            accept="image/*"
-            style="color: #2c3e50"
-            required
-        />
-        <img v-if="avatarUrl" :src="avatarUrl" alt="Аватар пользователя" style="max-width: 200px;">
-        <button type="submit">Загрузить аватар</button>
-      </form>-->
-
 
       <div class="row">
         <button type="submit" class="btn primary">Создать</button>
@@ -164,25 +119,28 @@ export default {
         </router-link>
       </div>
 
-
-
-      <p v-if="errorMessage" class="errorClass">{{ errorMessage }}</p>
+      <small_error v-if="error.small" :errorMsg="error.small"/>
     </form>
-
-    <!--    <router-link to="/login" v-slot="{navigate}" class="linksText">
-          <button class="btn primary" @click="navigate">return to enter</button>
-        </router-link>-->
-
-
-<!--    <form @submit.prevent="register" class="form">
-
-
-
-    </form>-->
+    <main_error v-if="error.normal" :errorMsg="error.normal"/>
   </div>
 
 </template>
 
 <style scoped lang="scss">
 
+input[type="file"] {
+  top: 0;
+  left: 0;
+  width: 130px;
+  height: 30px;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.inputs.large{
+  width: 40%;
+  height: 4em;
+  border-radius: 5px;
+  margin-left: 0;
+}
 </style>

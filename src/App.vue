@@ -3,28 +3,38 @@ import TheMain from "@/components/mainPage/TheMain.vue";
 import TheHeader from "@/components/mainPage/TheHeader.vue";
 import TheMainSearch from "@/components/SearchPage/TheMainSearch.vue";
 import MainAuthoriz from "@/components/autoriz/mainAuthoriz.vue";
+import TheMainLoader from "@/components/loading/TheMainLoader.vue";
+import TheLoadingPlashki from "@/components/loading/TheLoadingPlashki.vue";
+
+/*import { inject } from 'vue';*/
+
+import { useStore } from 'vuex';
+import { computed, onMounted } from 'vue';
+// Получаем доступ к store
+const store = useStore();
+
+/*const toast = inject('$toast');  // Получаем доступ к toast*/
+
+// Используем computed для получения состояния загрузки из Vuex
+const isLoadingGlobal = computed(() => store.state.isLoading.global);
+
+
 </script>
 
 <template>
   <header>
-    <!--    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />-->
-<!--    <div class="header">-->
       <TheHeader></TheHeader>
-<!--    </div>-->
-
-<!--    <div class="wrapper">
-    </div>-->
   </header>
 
   <main>
-    <router-view></router-view>
-<!--    <MainAuthoriz></MainAuthoriz>
-    <TheMain></TheMain>
-    <TheMainSearch></TheMainSearch>-->
+<!--    //бесконечная загрузка-->
+    <the-main-loader v-if="isLoadingGlobal" :isLoading="isLoadingGlobal" message="Загрузка приложения..."></the-main-loader>
+    <router-view v-show="!isLoadingGlobal"></router-view> <!--//отображаем другие странички-->
   </main>
 </template>
 
 <style scoped>
+
 header {
   line-height: 1.5;
   /*width: 50%;*/

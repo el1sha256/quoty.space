@@ -1,3 +1,11 @@
+@charset "UTF-8";
+.scroll-container::-webkit-scrollbar {
+  display: none; /* Скрыть полосу прокрутки в WebKit-браузерах */
+}
 
+.scroll-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+}
 
 /*# sourceMappingURL=styles.css.map */

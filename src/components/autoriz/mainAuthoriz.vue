@@ -1,21 +1,22 @@
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapState} from "vuex";
 import {commonMethods} from "@/components/mixins/commonMethods.js";
+import TheMainLoader from "@/components/loading/TheMainLoader.vue";
+import Main_error from "@/components/errors/main_error.vue";
+import Small_error from "@/components/errors/small_error.vue";
 
 export default {
   name: "mainAuthoriz",
+  components: {Small_error, Main_error, TheMainLoader},
   mixins: [commonMethods],
   data() {
     return {
       email: '',
       password: '',
-      errorMessage: '',
     }
   },
   computed: {
-    /*isValid() {
-      return this.email !== '' && this.password !== ''
-    },*/
+    ...mapState(['error']),
   },
   methods: {
     submit() {
@@ -26,17 +27,16 @@ export default {
         this.login({email: this.email, password: this.password})
             .then(() => {
               // Если авторизация успешна
-              this.$router.push('/mainPage'); // перенаправить пользователя на другую страницу, если требуется
+              this.$router.push({ name: 'mainPageWithSlug' });
             })
             .catch((error) => {
               const errorMessage = error.message || 'Ошибка при авторизации';
-              this.$store.dispatch('handleError', {message: errorMessage}); // Отправляем ошибку в Vuex
-              //this.$store: Это доступ к объекту Vuex-хранилища (store), который подключён ко всему приложению. Когда вы используете Vuex, Vue автоматически предоставляет объект хранилища во всех компонентах через this.$store.
-              //dispatch: Это метод Vuex, который используется для вызова действий (actions) из хранилища. В отличие от мутаций, действия могут выполнять асинхронные операции, такие как запросы к серверу или сложную бизнес-логику
-            });
+              this.$store.dispatch('handleError', {type:'small', message: errorMessage}); // Отправляем ошибку в Vuex
+              });
       }
     },
     ...mapActions(['login']),
+
   },
 }
 </script>
@@ -56,18 +56,14 @@ export default {
       </div>
       <div class="row">
         <button type="submit" class="btn primary">Войти</button>
-        <!--      //if dont work make it ourside this div-->
         <router-link to="/creating" v-slot="{navigate}" class="linksClear">
           <button class="btn primary" @click="navigate">Нет аккаунта?</button>
         </router-link>
       </div>
-      >
-      <p v-if="errorMessage" class="errorClass">{{ errorMessage }}</p>
-
+        <small_error v-if="error.small" :errorMsg="error.small"/>
     </form>
-    <!--    <router-link to="/creating" v-slot="{navigate}" class="linksClear">
-        <button class="btn primary" @click="navigate">еще не зарган</button>
-        </router-link>-->
+
+    <main_error v-if="error.normal" :errorMsg="error.normal"/>
 
   </div>
 </template>
@@ -86,5 +82,4 @@ export default {
   margin-top: 1em;
   justify-content: space-between;
 }
-
 </style>
