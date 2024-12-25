@@ -10,7 +10,9 @@ router.get('/users', userController.getAll)
 router.get('/users/:id', userController.getOne)
 router.put('/user/update', userController.update)
 router.delete('/user/delete', userController.delete)
-router.post('/user/upload-avatar/:userId', userController.avatarUpl)
+
+
+router.post('/upload-avatar/:userId', userController.avatarUpl)
 
 
 

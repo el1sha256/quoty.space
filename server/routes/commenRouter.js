@@ -3,18 +3,12 @@ const router = new Router()
 const commentController = require("../controllers/commentController");
 
 
-/*router.post('/')
-router.get('/')
-router.get('/:id')
-router.delete('/')*/
+router.get('/:postId/comments', commentController.getPostComments); // Комментарии к опред посту
+router.post('/:id/create', commentController.create); // Создать //id of the post itself
+router.delete('/:postId/comments/:commentId', commentController.delete); // Удалить
 
-
-router.get('/posts/:postId/comments', commentController.getPostComments); // Комментарии к опред посту
-router.post('/posts/:id/comments', commentController.create); // Создать
-router.delete('/posts/:postId/comments/:commentId', commentController.delete); // Удалить
-
-router.post('/posts/:id/comments/:id/like', commentController.like); // лайкнуть //НЕ СДЕЛАНО
-
+router.post('/:postId/comments/:commentId/like', commentController.like); // лайкнуть //НЕ СДЕЛАНО
+router.post('/:postId/comments/:commentId/unlike', commentController.unlike); // лайкнуть //НЕ СДЕЛАНО
 
 
 module.exports = router

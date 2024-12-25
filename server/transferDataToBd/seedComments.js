@@ -7,7 +7,7 @@ const comments1 = [
     /*{ id: 1, postId: 1, userId: 1, content: "Great post!", createdAt: new Date(), updatedAt: new Date(), username: "UserOne" },
     { id: 2, postId: 1, userId: 2, content: "Thanks for sharing!", createdAt: new Date(), updatedAt: new Date(), username: "UserTwo" },
     { id: 3, postId: 2, userId: 1, content: "Nice design!", createdAt: new Date(), updatedAt: new Date(), username: "UserOne" },*/
-    {postId: 1, userId: 1, content: "Great post!", createdAt: new Date(), updatedAt: new Date() },
+    { postId: 1, userId: 1, content: "Great post!", createdAt: new Date(), updatedAt: new Date() },
     { postId: 1, userId: 2, content: "Thanks for sharing!", createdAt: new Date(), updatedAt: new Date()},
     { postId: 2, userId: 1, content: "Nice design!", createdAt: new Date(), updatedAt: new Date() },
 ];

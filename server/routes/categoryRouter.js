@@ -3,11 +3,14 @@ const router = new Router()
 const categoryController = require("../controllers/categoriesController");
 
 
-router.get('/categories', categoryController.getCategories)
+//http://localhost:4000/api/category/categories
+//http://localhost:4000/api/category/delete/9
 
-router.post('/categories/:id', categoryController.create); // Создать //НЕ СДЕЛАНО
-router.delete('/categories/:id/delete', categoryController.delete); // Удалить
-/*router.get('/:id')*/
+router.get('/categories', categoryController.getCategories) //get all of them
+router.post('/create', categoryController.create); // Создать
+router.delete('/delete/:id', categoryController.delete); // Удалить
+
+//in user add this I think
 router.post('/categories/:id/like', categoryController.like); // лайкнуть //НЕ СДЕЛАНО
 
 

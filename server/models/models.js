@@ -75,6 +75,19 @@ module.exports = (sequelize) => {
             likes: {type: DataTypes.INTEGER, allowNull: true},
             savings: {type: DataTypes.INTEGER, allowNull: true},
             categoryId: {type: DataTypes.INTEGER, allowNull: true, references: {model: 'categories', key: 'id'}},
+
+            createdAt: {
+                type: DataTypes.DATE,
+                allowNull: false
+            },
+            updatedAt: {
+                type: DataTypes.DATE,
+                allowNull: false
+            },
+            img: {
+                type: DataTypes.STRING,
+                allowNull: true
+            },
         },
         {
             tableName: 'posts', // Таблица называется 'posts'
@@ -121,6 +134,44 @@ module.exports = (sequelize) => {
         })
 
 
+    const Like = sequelize.define("Like", { //likes for posts
+            id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+            userId: {type: DataTypes.INTEGER, allowNull: false},
+            postId: {type: DataTypes.INTEGER, allowNull: false},
+
+            createdAt: {type: DataTypes.DATE, allowNull: true},
+            updatedAt: {type: DataTypes.DATE, allowNull: false}
+        },
+        {
+            tableName: 'likes',
+            timestamps: true,
+        })
+
+    const LikeComms = sequelize.define("LikeComms", { //likes for comms
+            id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+            userId: {type: DataTypes.INTEGER, allowNull: false},
+            commentId: {type: DataTypes.INTEGER, allowNull: false},
+            createdAt: {type: DataTypes.DATE, allowNull: true},
+            updatedAt: {type: DataTypes.DATE, allowNull: false}
+        },
+        {
+            tableName: 'likesComms',
+            timestamps: true,
+    })
+
+    const Saved = sequelize.define("Saved", { //likes for posts
+            id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+            userId: {type: DataTypes.INTEGER, allowNull: false},
+            postId: {type: DataTypes.INTEGER, allowNull: false},
+            createdAt: {type: DataTypes.DATE, allowNull: true},
+            updatedAt: {type: DataTypes.DATE, allowNull: false}
+        },
+        {
+            tableName: 'saved',
+            timestamps: true,
+        })
+
+
     User.hasMany(Post, {foreignKey: 'userId'})
     User.hasMany(Comment, {foreignKey: 'userId'})
     Post.belongsTo(User, {foreignKey: 'userId'})
@@ -133,8 +184,16 @@ module.exports = (sequelize) => {
     Post.belongsTo(Category, {foreignKey: 'categoryId'}); // Each post belongs to one category
     Category.hasMany(Post, {foreignKey: 'categoryId'}); // One category has many posts
 
+    Post.hasMany(Like, {foreignKey: 'postId'});
+    Like.belongsTo(Post, {foreignKey: 'postId'});
 
-    return {User, Post, Comment, Category};
+    Post.hasMany(Saved, {foreignKey: 'postId'});
+    Saved.belongsTo(Post, {foreignKey: 'postId'});
+
+    Comment.hasMany(LikeComms, {foreignKey: 'commentId'});
+    LikeComms.belongsTo(Comment, {foreignKey: 'commentId'});
+
+    return {User, Post, Comment, Category, Like, Saved, LikeComms};
 };
 
 

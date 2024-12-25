@@ -14,5 +14,4 @@ router.use('/category', categoryRouter)
 router.use('/comment', commenRouter)
 router.use('/subscribers',subscribersRouter)
 
-
 module.exports = router

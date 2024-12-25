@@ -6,7 +6,7 @@ require('dotenv').config();
 
 const posts1 = [
     //не указывать id вручную при добавлении данных, если вы хотите, чтобы база данных сама назначала уникальные значения.
-    {  userId: 1, content: 'Первый пост пользователя 1', likes: 0, savings: 0, categoryId: 1,  createdAt: new Date(), updatedAt: new Date() },
+    { userId: 1, content: 'Первый пост пользователя 1', likes: 0, savings: 0, categoryId: 1,  createdAt: new Date(), updatedAt: new Date() },
     { userId: 1, content: 'Второй пост пользователя 1', likes: 0, savings: 0, categoryId: 2,  createdAt: new Date(), updatedAt: new Date() },
     { userId: 2, content: 'Первый пост пользователя 2', likes: 0, savings: 0, categoryId: 3,  createdAt: new Date(), updatedAt: new Date() },
     { userId: 3, content: 'Первый пост пользователя 3', likes: 0, savings: 0, categoryId: 3,  createdAt: new Date(), updatedAt: new Date() },
