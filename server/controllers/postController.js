@@ -93,8 +93,12 @@ class PostController {
     //http://localhost:4000/api/post/posts/:id/like
     async like(req, res) {
         const postId = parseInt(req.params.id, 10); //URL
-        const userId = req.body.userId; //из тела запроса // { "userId": 42 } //идентификатор пользователя,
+        /*const userId = req.body.userId; //из тела запроса // { "userId": 42 } //идентификатор пользователя,*/
+        const { id: userId } = req.user; // Получаем userId из данных пользователя в req.user
 
+        if (!userId) {
+            return res.status(401).json({ message: 'User is not authenticated' });
+        }
         console.log('postId:', postId, 'userId:', userId);
         try {
             const post = await Post.findByPk(postId);
@@ -127,7 +131,12 @@ class PostController {
     //http://localhost:4000/api/post/posts/:id/unlike
     async unlike(req, res) {
         const postId = parseInt(req.params.id, 10);
-        const userId = req.body.userId;
+        /*const userId = req.body.userId;*/
+        const { id: userId } = req.user; // Получаем userId из данных пользователя в req.user
+
+        if (!userId) {
+            return res.status(401).json({ message: 'User is not authenticated' });
+        }
 
         try{
             const post = await Post.findByPk(postId);
@@ -158,7 +167,12 @@ class PostController {
     //http://localhost:4000/api/post/posts/:id/save
     async save(req, res) {
         const postId = parseInt(req.params.id, 10);
-        const userId = req.body.userId;
+       /* const userId = req.body.userId;*/
+        const { id: userId } = req.user; // Получаем userId из данных пользователя в req.user
+
+        if (!userId) {
+            return res.status(401).json({ message: 'User is not authenticated' });
+        }
 
         try{
             const post = await Post.findByPk(postId);
@@ -190,7 +204,13 @@ class PostController {
     //http://localhost:4000/api/post/posts/:id/unsave
     async unsave(req, res) {
         const postId = parseInt(req.params.id, 10);
-        const userId = req.body.userId;
+        /*const userId = req.body.userId;*/
+        const { id: userId } = req.user; // Получаем userId из данных пользователя в req.user
+
+        if (!userId) {
+            return res.status(401).json({ message: 'User is not authenticated' });
+        }
+
         try{
             const post = await Post.findByPk(postId);
             console.log('Post found:', post);
@@ -228,7 +248,12 @@ class PostController {
     // }
 
     async create(req, res) {
-        const { postContent, userId } = req.body;
+        const { postContent} = req.body;
+        const { id: userId } = req.user; // Получаем userId из данных пользователя в req.user
+
+        if (!userId) {
+            return res.status(401).json({ message: 'User is not authenticated' });
+        }
 
         const {img} = req.files //ability to add pics
         let fileName = uuid.v4() + ".jpg" //unique IDshka
@@ -263,16 +288,28 @@ class PostController {
     //http://localhost:4000/api/post/:postId/delete
     async delete(req, res) {
         const postId = parseInt(req.params.postId, 10);
-        try{
+       /* const userId = req.body.userId; //*/
+        const userId = req.user.id; //from token
+
+        if (!userId) {
+            return res.status(401).json({ message: 'User is not authenticated' });
+        }
+
+        try {
             const post = await Post.findByPk(postId);
             if (!post) {
                 return res.status(404).json({ error: 'Post not found' });
             }
-            // Удаляем пост
-            await post.destroy();
 
+            // Check if the post belongs to the user
+            if (post.userId !== userId) {
+                return res.status(403).json({ message: 'You are not authorized to delete this post' });
+            }
+
+            // Delete the post
+            await post.destroy();
             res.json({ message: 'Post deleted successfully' });
-        }catch (e) {
+        } catch (e) {
             console.error('Error deleting post:', e);
             res.status(500).json({ error: 'An error occurred while deleting the post' });
         }

@@ -48,7 +48,10 @@ class CommentController {
     //{ "userId": 1, "content": "This is a comment" }
     async create(req, res) {
         const postId = parseInt(req.params.id, 10); //Url
-        const { userId, content } = req.body; //body
+        /*const { userId, content } = req.body; //body*/
+        const { content } = req.body; //body
+        const userId = req.user.id; //from token
+
         if (!content || !userId) {
             return res.status(400).json({ error: 'User ID and content are required' });
         }
@@ -80,7 +83,10 @@ class CommentController {
     async delete(req, res) {
         const postId = parseInt(req.params.postId, 10);
         const commentId = parseInt(req.params.commentId, 10);
-
+        const userId = req.user.id; //from token
+        if (!userId) {
+            return res.status(401).json({ message: 'User is not authenticated' });
+        }
         try{
             // существует ли пост
             const post = await Post.findOne({ where: { id: postId } });
@@ -104,7 +110,8 @@ class CommentController {
     async like(req, res) {
         const postId = parseInt(req.params.postId, 10); // ID поста из URL
         const commentId = parseInt(req.params.commentId, 10); // ID комментария из URL
-        const userId = req.body.userId; // Идентификатор пользователя из тела запроса
+        /*const userId = req.body.userId; // Идентификатор пользователя из тела запроса*/
+        const userId = req.user.id; //from token
         console.log('postId:', postId, 'commentId:', commentId, 'userId:', userId);
 
         try {
@@ -148,7 +155,8 @@ class CommentController {
     async unlike(req, res) {
         const postId = parseInt(req.params.postId, 10); // ID поста из URL
         const commentId = parseInt(req.params.commentId, 10); // ID комментария из URL
-        const userId = req.body.userId; // Идентификатор пользователя из тела запроса
+        /*const userId = req.body.userId; // Идентификатор пользователя из тела запроса*/
+        const userId = req.user.id; //from token
         console.log('postId:', postId, 'commentId:', commentId, 'userId:', userId);
 
         try {

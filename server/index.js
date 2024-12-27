@@ -14,6 +14,10 @@ const PORT = process.env.PORT || 4000;
 const fileUpload = require('express-fileupload');
 const path = require("path");
 
+
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
 const app = express();
 app.use(cors())
 app.use(express.json());
@@ -31,6 +35,57 @@ app.use(errorHandler)
 app.get('/', (req, res) => {
     res.send('Server is up and running!');
 });
+
+
+// Настройка Swagger
+/*const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'API документация',
+            version: '1.0.0',
+            description: 'Документация API для вашего приложения',
+        },
+    },
+    /!*apis: ['./routes/!*.js'], // Укажите путь к вашим роутам*!/
+    apis: ['./routes/!**!/!*.js'], // Для всех файлов .js, включая вложенные папки
+};*/
+
+
+
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'API документация',
+            version: '1.0.0',
+            description: 'Документация API для вашего приложения',
+        },
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT', // Указывает, что используется токен в формате JWT
+                },
+            },
+        },
+        /*security: [
+            {
+                bearerAuth: [],
+            },
+        ],*/
+    },
+    apis: ['./routes/**/*.js'], // Указывает на файлы с документацией Swagger
+};
+
+
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
+// Подключение Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+
+
 
 const start = async ()=>{
     try{
