@@ -30,14 +30,14 @@ module.exports = (sequelize) => {
                 type: DataTypes.STRING,
                 allowNull: true
             }, // Хранение пути к аватарке
-            subscriptions: {
+           /* subscriptions: {
                 type: DataTypes.JSON,
                 allowNull: true
             }, // Хранение массива подписок
             subscribers: {
                 type: DataTypes.JSON,
                 allowNull: true
-            },
+            },*/
             receivedLikes: {
                 type: DataTypes.INTEGER,
                 allowNull: true
@@ -53,7 +53,16 @@ module.exports = (sequelize) => {
             updatedAt: {
                 type: DataTypes.DATE,
                 allowNull: false
-            }
+            },
+
+            role: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                defaultValue: "user", // По умолчанию обычный пользователь
+                validate: {
+                    isIn: [["user", "ADMIN", "superuser"]] // Доступные роли
+                }
+            },
         },
 
         {
@@ -172,6 +181,30 @@ module.exports = (sequelize) => {
         })
 
 
+    const Subscription = sequelize.define("Subscription", {
+        id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+
+        userId: {type: DataTypes.INTEGER, allowNull: false, // это ID пользователя, на которого подписываются.
+            references: {
+                model: 'users', // Ссылаемся на таблицу пользователей
+                key: 'id'
+            }},
+
+        subscriberId: { //это ID пользователя, который подписывается.
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'users', // Ссылаемся на таблицу пользователей
+                key: 'id'
+            }
+        },
+    }, {
+        tableName: 'subscriptions', // Имя таблицы в базе данных
+        timestamps: false, // Подписки не требуют полей времени
+        underscored: false,
+    })
+
+
     User.hasMany(Post, {foreignKey: 'userId'})
     User.hasMany(Comment, {foreignKey: 'userId'})
     Post.belongsTo(User, {foreignKey: 'userId'})
@@ -193,7 +226,18 @@ module.exports = (sequelize) => {
     Comment.hasMany(LikeComms, {foreignKey: 'commentId'});
     LikeComms.belongsTo(Comment, {foreignKey: 'commentId'});
 
-    return {User, Post, Comment, Category, Like, Saved, LikeComms};
+
+    User.hasMany(Subscription, { foreignKey: 'userId', as: 'userSubscriptions' }); //подписок //на которого
+    //as: 'subscriptions' — это просто название, которое мы используем, чтобы обращаться к подпискам.
+    //const user = await User.findByPk(1, { include: ['subscriptions'] });
+    User.hasMany(Subscription, { foreignKey: 'subscriberId', as: 'userSubscribers' }); //кто подписан
+
+    Subscription.belongsTo(User, { foreignKey: 'userId', as: 'subscribedUser' });//на кого она оформлена:
+    //const subscription = await Subscription.findByPk(1, { include: ['user'] });
+    Subscription.belongsTo(User, { foreignKey: 'subscriberId', as: 'subscribingUser' });//кто подписался на пользователя:
+    //const subscription = await Subscription.findByPk(1, { include: ['subscriber'] });
+
+    return {User, Post, Comment, Category, Like, Saved, LikeComms, Subscription};
 };
 
 

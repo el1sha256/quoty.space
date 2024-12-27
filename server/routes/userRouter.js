@@ -1,18 +1,22 @@
 const Router = require('express')
 const router = new Router()
 const userController = require('../controllers/userController')
+const authMiddleware = require('../middleware/authMiddleware')
 
-router.post('/user/register', userController.registration)
+router.post('/register', userController.registration)
 router.post('/login', userController.login)
-router.get('/auth', userController.check)
 
-router.get('/users', userController.getAll)
+router.get('/auth', authMiddleware, userController.check) //чекает пользователя на авторизованность
+
+/*router.get('/users',authMiddleware,  userController.getAll)*/
+router.get('/users',  userController.getAll)
 router.get('/users/:id', userController.getOne)
-router.put('/user/update', userController.update)
-router.delete('/user/delete', userController.delete)
 
+router.put('/update', authMiddleware, userController.update)
 
-router.post('/upload-avatar/:userId', userController.avatarUpl)
+router.delete('/delete', authMiddleware, userController.delete)
+
+router.post('/upload-avatar/:userId', authMiddleware, userController.avatarUpl)
 
 
 

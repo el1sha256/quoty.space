@@ -1,5 +1,6 @@
 'use strict';
 
+const {DataTypes} = require("sequelize");
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.renameColumn('users', 'userName', 'username');
@@ -56,6 +57,16 @@ module.exports = {
                 allowNull: false,
                 defaultValue: Sequelize.NOW,
             },
+
+            role: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                defaultValue: "user", // По умолчанию обычный пользователь
+                validate: {
+                    isIn: [["user", "admin", "superuser"]] // Доступные роли
+                }
+            },
+
         });
     },
 
